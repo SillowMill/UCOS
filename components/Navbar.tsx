@@ -41,11 +41,7 @@ export default function Navbar({ locale, content }: NavbarProps) {
             : "border-slate-200/80 bg-white shadow-soft glass-panel"
         }`}
       >
-        <Link
-          href={`/${locale}`}
-          className={`flex items-center ${locale === "en" ? "gap-0" : "gap-1"}`}
-          aria-label={`${content.branding.name} home`}
-        >
+        <Link href={`/${locale}`} className="flex items-center" aria-label={`${content.branding.name} home`}>
           {logoError ? (
             <div className="flex h-14 items-center justify-center rounded-md bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 px-5 text-lg font-black tracking-wide text-white shadow">
               UCOS
@@ -65,8 +61,9 @@ export default function Navbar({ locale, content }: NavbarProps) {
               />
             </div>
           )}
-          <div className={locale === "en" ? "-ml-6" : "-ml-1"}>
-            <p className="text-xs text-slate-600">{content.branding.tagline}</p>
+          <span className="mx-2 h-9 w-px bg-slate-300" aria-hidden="true" />
+          <div>
+            <p className="text-xs leading-tight text-slate-600">{content.branding.tagline}</p>
           </div>
         </Link>
 

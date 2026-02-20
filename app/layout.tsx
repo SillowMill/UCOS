@@ -35,7 +35,9 @@ export const metadata: Metadata = {
       "Join a youth-driven movement for global citizenship, student engagement, and sustainable development."
   },
   icons: {
-    icon: "/favicon.svg"
+    icon: [{ url: "/Logo4.png?v=6", type: "image/png" }],
+    shortcut: "/Logo4.png?v=6",
+    apple: "/Logo4.png?v=6"
   }
 };
 
