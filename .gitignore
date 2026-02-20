@@ -1,3 +1,14 @@
 .next/
 node_modules/
 *.log
+
+# macOS
+.DS_Store
+
+# local env files
+.env
+.env.local
+.env.*.local
+
+# archives
+*.zip
