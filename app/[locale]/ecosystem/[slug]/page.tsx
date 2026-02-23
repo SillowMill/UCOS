@@ -243,12 +243,18 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
 
                       return (
                         <div key={`${image}-${index}`} className="flex flex-col items-center text-center">
-                          <div className={isEunique ? "relative h-44 w-32 sm:h-48 sm:w-36" : "relative h-36 w-full sm:h-40"}>
+                          <div
+                            className={
+                              isEunique
+                                ? "relative h-44 w-32 overflow-hidden rounded-lg sm:h-48 sm:w-36"
+                                : "relative h-36 w-full overflow-hidden rounded-lg sm:h-40"
+                            }
+                          >
                             <Image
                               src={image}
                               alt={`${page.frontmatter.title} visual ${index + 1}`}
                               fill
-                              className={isEunique ? "rounded-lg object-cover object-top" : "object-contain"}
+                              className="rounded-lg object-contain"
                             />
                           </div>
                         <p className="mt-2 text-xs font-medium text-slate-700">
