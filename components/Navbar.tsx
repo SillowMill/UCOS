@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { HomeContent } from "@/lib/content";
 import { Locale, localeNames, locales } from "@/lib/i18n";
 
@@ -15,34 +14,9 @@ type NavbarProps = {
 };
 
 export default function Navbar({ locale, content }: NavbarProps) {
-  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const searchLinks = useMemo(
-    () => [...content.nav.items, { label: content.nav.cta, href: "#get-involved" }],
-    [content.nav.cta, content.nav.items]
-  );
-
-  const searchLabel = locale === "nl" ? "Zoeken" : locale === "fr" ? "Recherche" : "Search";
-  const searchPlaceholder = locale === "nl" ? "Zoek een pagina" : locale === "fr" ? "Rechercher une page" : "Search a page";
-
-  const onSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return;
-
-    const directMatch = searchLinks.find((link) => link.label.toLowerCase().startsWith(query));
-    const partialMatch = searchLinks.find((link) => link.label.toLowerCase().includes(query));
-    const target = directMatch ?? partialMatch;
-    if (!target) return;
-
-    router.push(`/${locale}${target.href}`);
-    setSearchQuery("");
-    setMenuOpen(false);
-  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -103,32 +77,19 @@ export default function Navbar({ locale, content }: NavbarProps) {
               {item.label}
             </Link>
           ))}
-          <div className="flex w-52 flex-col gap-2 self-start">
-            <div className="flex w-full items-center gap-1 rounded-full border border-slate-200 bg-white px-1 py-1">
-              {locales.map((lang) => (
-                <Link
-                  key={lang}
-                  href={`/${lang}`}
-                  aria-label={`${content.nav.languageLabel}: ${localeNames[lang]}`}
-                  className={`flex-1 rounded-full px-3 py-1 text-center text-xs font-semibold transition ${
-                    lang === locale ? "bg-brand-700 text-white" : "text-slate-600 hover:bg-slate-100"
-                  }`}
-                >
-                  {lang.toUpperCase()}
-                </Link>
-              ))}
-            </div>
-            <form onSubmit={onSearchSubmit} className="flex w-full items-center gap-1 rounded-full border border-slate-200 bg-white px-2 py-1">
-              <Search size={14} className="text-slate-500" aria-hidden="true" />
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder={searchPlaceholder}
-                className="w-full bg-transparent text-xs text-slate-700 outline-none placeholder:text-slate-400"
-                aria-label={searchLabel}
-              />
-            </form>
+          <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white px-1 py-1">
+            {locales.map((lang) => (
+              <Link
+                key={lang}
+                href={`/${lang}`}
+                aria-label={`${content.nav.languageLabel}: ${localeNames[lang]}`}
+                className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
+                  lang === locale ? "bg-brand-700 text-white" : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                {lang.toUpperCase()}
+              </Link>
+            ))}
           </div>
           <Link
             href={`/${locale}#get-involved`}
@@ -177,17 +138,6 @@ export default function Navbar({ locale, content }: NavbarProps) {
             >
               {content.nav.cta}
             </Link>
-            <form onSubmit={onSearchSubmit} className="mt-1 flex w-full items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2">
-              <Search size={15} className="text-slate-500" aria-hidden="true" />
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder={searchPlaceholder}
-                className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
-                aria-label={searchLabel}
-              />
-            </form>
             <div className="mt-2 flex gap-2 border-t border-slate-100 pt-3">
               {locales.map((lang) => (
                 <Link
