@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Locale, isLocale } from "@/lib/i18n";
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type StoryPageProps = {
@@ -40,13 +41,20 @@ export async function generateMetadata({ params }: StoryPageProps): Promise<Meta
 export default async function StoryPage({ params }: StoryPageProps) {
   const locale = await resolveLocale(params.locale);
   const [story, homeContent] = await Promise.all([getStoryBySlug(locale, params.slug), getHomeContent(locale)]);
+  const backLabel = locale === "nl" ? "Terug" : locale === "fr" ? "Retour" : "Back";
 
   return (
     <>
       <Navbar locale={locale} content={homeContent} />
       <main lang={locale} className="mx-auto max-w-7xl px-5 pb-20 pt-24 sm:px-8 lg:px-12">
         <article className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">{story.frontmatter.category}</p>
+          <Link
+            href={`/${locale}#stories`}
+            className="inline-flex items-center rounded-full border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
+          >
+            {backLabel}
+          </Link>
+          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-brand-700">{story.frontmatter.category}</p>
           <h1 className="mt-3 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">{story.frontmatter.title}</h1>
           <p className="mt-4 text-sm text-slate-500">{story.frontmatter.date}</p>
           <div className="mt-8 space-y-4 text-base leading-relaxed text-slate-700">
