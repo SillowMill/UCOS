@@ -54,12 +54,6 @@ export default async function LocaleHomePage({ params }: PageProps) {
 
   return (
     <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-brand-800"
-      >
-        {content.accessibility.skipToContent}
-      </a>
       <Navbar locale={locale} content={content} />
       <main id="main-content" lang={locale} className="relative">
         <div
@@ -70,13 +64,13 @@ export default async function LocaleHomePage({ params }: PageProps) {
               "linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.92)), url('https://www.ucos.be/wp-content/uploads/2024/06/UCOS_CHANGE_MIETTE-63-1500x430.jpg')"
           }}
         />
-        <HeroSection content={content.hero} />
-        <AboutSection content={content.about} />
+        <HeroSection content={content.hero} locale={locale} />
+        <AboutSection content={content.about} locale={locale} />
         <WhatWeDoSection content={content.whatWeDo} />
         <UcosEcosystemSection content={content.ecosystem} locale={locale} />
         <ImpactSection content={content.impact} />
-        <ProgramsSection content={content.programs} />
-        <GetInvolvedSection content={content.involved} />
+        <ProgramsSection content={content.programs} locale={locale} />
+        <GetInvolvedSection content={content.involved} locale={locale} />
         <NewsSection content={content.stories} stories={stories.slice(0, 3)} locale={locale} />
         <CallToActionSection content={content.cta} locale={locale} />
       </main>

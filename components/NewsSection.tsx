@@ -13,13 +13,15 @@ type NewsSectionProps = {
 };
 
 export default function NewsSection({ content, stories, locale }: NewsSectionProps) {
+  const isTwoItemLayout = stories.length === 2;
+
   return (
     <SectionContainer id="stories" className="bg-slate-900 py-24 text-white" ariaLabel="News and stories">
       <AnimatedSection>
         <SectionHeader eyebrow={content.eyebrow} title={content.title} description={content.description} centered light />
       </AnimatedSection>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-3">
+      <div className={`mt-12 grid gap-5 ${isTwoItemLayout ? "lg:mx-auto lg:max-w-5xl lg:grid-cols-2" : "lg:grid-cols-3"}`}>
         {stories.map((story, index) => (
           <AnimatedSection key={story.title} delay={index * 0.1}>
             <article className="group h-full rounded-2xl border border-slate-700 bg-slate-800/80 p-6 transition duration-300 hover:-translate-y-1 hover:border-brand-300 hover:bg-slate-800">

@@ -92,7 +92,7 @@ export default function Navbar({ locale, content }: NavbarProps) {
             ))}
           </div>
           <Link
-            href={`/${locale}#cta`}
+            href={`/${locale}#get-involved`}
             className="whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-300"
           >
             {content.nav.cta}

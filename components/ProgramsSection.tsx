@@ -1,24 +1,36 @@
 import Image from "next/image";
+import Link from "next/link";
 import { HomeContent } from "@/lib/content";
+import { Locale } from "@/lib/i18n";
 import AnimatedSection from "./AnimatedSection";
 import SectionContainer from "./SectionContainer";
 import SectionHeader from "./SectionHeader";
 
 type ProgramsSectionProps = {
   content: HomeContent["programs"];
+  locale: Locale;
 };
 
-export default function ProgramsSection({ content }: ProgramsSectionProps) {
+export default function ProgramsSection({ content, locale }: ProgramsSectionProps) {
+  const isTwoItemLayout = content.items.length === 2;
+  const programHrefs = [
+    `/${locale}/programs/campus-klimaatrechtvaardigheid`,
+    `/${locale}/programs/global-quest-room`
+  ];
+
   return (
     <SectionContainer id="programs" className="bg-white py-24" ariaLabel="Programs and projects">
       <AnimatedSection>
         <SectionHeader eyebrow={content.eyebrow} title={content.title} description={content.description} centered />
       </AnimatedSection>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
+      <div className={`mt-12 grid gap-6 ${isTwoItemLayout ? "lg:mx-auto lg:max-w-5xl lg:grid-cols-2" : "lg:grid-cols-3"}`}>
         {content.items.map((program, index) => (
           <AnimatedSection key={program.title} delay={index * 0.1}>
-            <article className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-sm">
+            <Link
+              href={programHrefs[index] ?? `/${locale}#programs`}
+              className="group relative block overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+            >
               <Image
                 src={program.image}
                 alt={program.title}
@@ -31,7 +43,7 @@ export default function ProgramsSection({ content }: ProgramsSectionProps) {
                 <h3 className="text-2xl font-semibold text-white">{program.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-200">{program.description}</p>
               </div>
-            </article>
+            </Link>
           </AnimatedSection>
         ))}
       </div>

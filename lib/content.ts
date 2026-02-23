@@ -155,6 +155,10 @@ export type UcosPageFrontmatter = {
   heroImage: string;
   quickLinks: NavItem[];
   gallery: string[];
+  galleryCaptions?: string[];
+  galleryRoles?: string[];
+  galleryPhones?: string[];
+  galleryEmails?: string[];
   sections: Array<{
     heading: string;
     text: string;

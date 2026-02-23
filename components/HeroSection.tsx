@@ -3,18 +3,76 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HomeContent } from "@/lib/content";
+import { Locale } from "@/lib/i18n";
 import SectionContainer from "./SectionContainer";
 
 type HeroSectionProps = {
   content: HomeContent["hero"];
+  locale: Locale;
 };
 
-export default function HeroSection({ content }: HeroSectionProps) {
+type AnimatedStatProps = {
+  value: string;
+  locale: Locale;
+  shouldAnimate: boolean;
+};
+
+function AnimatedStat({ value, locale, shouldAnimate }: AnimatedStatProps) {
+  const parsed = useMemo(() => {
+    const cleanValue = value.trim();
+    const suffixMatch = cleanValue.match(/[^0-9]*$/);
+    const suffix = suffixMatch?.[0] ?? "";
+    const numericPortion = cleanValue.replace(/\D/g, "");
+    const target = Number.parseInt(numericPortion, 10) || 0;
+    return { target, suffix };
+  }, [value]);
+
+  const [currentValue, setCurrentValue] = useState(0);
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setCurrentValue(0);
+      return;
+    }
+
+    if (parsed.target === 0) {
+      setCurrentValue(0);
+      return;
+    }
+
+    let frameId = 0;
+    const duration = 1400;
+    const start = performance.now();
+
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      setCurrentValue(Math.round(parsed.target * easedProgress));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(step);
+      }
+    };
+
+    frameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frameId);
+  }, [parsed.target, shouldAnimate]);
+
+  return (
+    <>
+      {new Intl.NumberFormat(locale).format(currentValue)}
+      {parsed.suffix}
+    </>
+  );
+}
+
+export default function HeroSection({ content, locale }: HeroSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yOffset = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const [statsVisible, setStatsVisible] = useState(false);
 
   return (
     <SectionContainer id="home" className="relative overflow-hidden bg-hero-gradient pb-20 pt-36 sm:pt-40" ariaLabel="Hero">
@@ -52,7 +110,7 @@ export default function HeroSection({ content }: HeroSectionProps) {
               >
                 {content.primaryCta}
                 <span className="ml-2 transition-transform group-hover:translate-x-1" aria-hidden="true">
-                  -&gt;
+                  →
                 </span>
               </Link>
               <Link
@@ -87,16 +145,24 @@ export default function HeroSection({ content }: HeroSectionProps) {
                     Welkom bij UCOS
                   </p>
                 </div>
-                <div className="mt-6 grid grid-cols-2 gap-4">
+                <motion.div
+                  className="mt-6 grid grid-cols-2 gap-4"
+                  onViewportEnter={() => setStatsVisible(true)}
+                  viewport={{ once: true, amount: 0.7 }}
+                >
                   <div className="rounded-xl bg-white p-4">
                     <p className="text-sm text-slate-500">{content.cardStatOneLabel}</p>
-                    <p className="mt-2 text-3xl font-bold text-brand-800">{content.cardStatOneValue}</p>
+                    <p className="mt-2 text-3xl font-bold text-brand-800">
+                      <AnimatedStat value={content.cardStatOneValue} locale={locale} shouldAnimate={statsVisible} />
+                    </p>
                   </div>
                   <div className="rounded-xl bg-white p-4">
                     <p className="text-sm text-slate-500">{content.cardStatTwoLabel}</p>
-                    <p className="mt-2 text-3xl font-bold text-brand-800">{content.cardStatTwoValue}</p>
+                    <p className="mt-2 text-3xl font-bold text-brand-800">
+                      <AnimatedStat value={content.cardStatTwoValue} locale={locale} shouldAnimate={statsVisible} />
+                    </p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>
