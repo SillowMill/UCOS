@@ -190,18 +190,12 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
                 priority
               />
             )}
-            <div className="absolute bottom-5 left-5 right-5">
-              <div className={`inline-block rounded-lg px-4 py-3 backdrop-blur-sm ${isContactPage ? "bg-white/50" : "bg-slate-900/35"}`}>
-                <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${isContactPage ? "text-brand-800" : "text-white/90"}`}>
-                  {isContactPage ? contactCopy.teamLabel : page.frontmatter.eyebrow}
-                </p>
-                <h1 className={`mt-2 text-3xl font-bold sm:text-4xl ${isContactPage ? "text-brand-900" : "text-white"}`}>{page.frontmatter.title}</h1>
-              </div>
-            </div>
           </div>
 
           {isContactPage ? (
             <div className="p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{contactCopy.teamLabel}</p>
+              <h1 className="mt-2 text-3xl font-bold text-brand-900 sm:text-4xl">{page.frontmatter.title}</h1>
               <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
                 <div>
                   <section className="mt-4 rounded-brand border border-brand-200 bg-brand-50/60 p-4">
@@ -293,6 +287,8 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
           ) : (
             <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_0.9fr]">
               <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-800">{page.frontmatter.eyebrow}</p>
+                <h1 className="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">{page.frontmatter.title}</h1>
                 <p className="text-lg leading-relaxed text-slate-700">{page.frontmatter.summary}</p>
 
                 <div className="mt-6 space-y-5">
