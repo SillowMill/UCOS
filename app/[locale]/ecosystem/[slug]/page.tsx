@@ -45,6 +45,7 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
   const [page, home] = await Promise.all([getUcosPageBySlug(locale, params.slug), getHomeContent(locale)]);
   const isContactPage = params.slug === "contact";
   const otherSections = page.frontmatter.sections.slice(1);
+  const backLabel = locale === "nl" ? "Terug" : locale === "fr" ? "Retour" : "Back";
 
   const contactCopy = {
     nl: {
@@ -283,6 +284,14 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
                   </div>
                 </aside>
               </div>
+              <div className="mt-8">
+                <Link
+                  href={`/${locale}#ecosystem`}
+                  className="inline-flex items-center rounded-full border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
+                >
+                  {backLabel}
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_0.9fr]">
@@ -317,6 +326,14 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
                   ))}
                 </div>
               </aside>
+              <div className="lg:col-span-2">
+                <Link
+                  href={`/${locale}#ecosystem`}
+                  className="inline-flex items-center rounded-full border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
+                >
+                  {backLabel}
+                </Link>
+              </div>
             </div>
           )}
         </article>
