@@ -44,7 +44,7 @@ const aboutDetails: Record<Locale, Record<string, AboutDetail>> = {
           text: "Onze missie is pas geslaagd wanneer inzichten landen in concrete stappen op campus, in stages en in samenwerking met partners."
         }
       ],
-      backLabel: "Terug naar wie zijn we",
+      backLabel: "Terug",
       ctaLabel: "Contacteer ons"
     },
     visie: {
@@ -66,7 +66,7 @@ const aboutDetails: Record<Locale, Record<string, AboutDetail>> = {
           text: "We zien hoger onderwijs als motor voor maatschappelijke transitie, met jonge mensen als drijvende kracht van verandering."
         }
       ],
-      backLabel: "Terug naar wie zijn we",
+      backLabel: "Terug",
       ctaLabel: "Plan een gesprek"
     },
     impact: {
@@ -88,7 +88,7 @@ const aboutDetails: Record<Locale, Record<string, AboutDetail>> = {
           text: "Onze impact is zichtbaar in campusinitiatieven, aangepaste onderwijspraktijken en projecten die lokale actie aan globale verantwoordelijkheid koppelen."
         }
       ],
-      backLabel: "Terug naar wie zijn we",
+      backLabel: "Terug",
       ctaLabel: "Bekijk contact"
     }
   },

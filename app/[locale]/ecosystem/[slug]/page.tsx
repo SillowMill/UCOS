@@ -238,22 +238,19 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
 
                 <aside>
                   <div className="grid grid-cols-2 gap-6">
-                    {page.frontmatter.gallery.map((image, index) => (
-                      <div key={`${image}-${index}`} className="flex flex-col items-center text-center">
-                        <div className="relative h-36 w-full sm:h-40">
-                          {(() => {
-                            const isEunique = (page.frontmatter.galleryCaptions?.[index] ?? "").toLowerCase().includes("eunique");
+                    {page.frontmatter.gallery.map((image, index) => {
+                      const isEunique = (page.frontmatter.galleryCaptions?.[index] ?? "").toLowerCase().includes("eunique");
 
-                            return (
-                              <Image
-                                src={image}
-                                alt={`${page.frontmatter.title} visual ${index + 1}`}
-                                fill
-                                className={isEunique ? "object-cover object-top" : "object-contain"}
-                              />
-                            );
-                          })()}
-                        </div>
+                      return (
+                        <div key={`${image}-${index}`} className="flex flex-col items-center text-center">
+                          <div className={isEunique ? "relative h-44 w-32 sm:h-48 sm:w-36" : "relative h-36 w-full sm:h-40"}>
+                            <Image
+                              src={image}
+                              alt={`${page.frontmatter.title} visual ${index + 1}`}
+                              fill
+                              className={isEunique ? "rounded-lg object-cover object-top" : "object-contain"}
+                            />
+                          </div>
                         <p className="mt-2 text-xs font-medium text-slate-700">
                           {page.frontmatter.galleryCaptions?.[index] ?? contactCopy.fallbackCaption}
                         </p>
@@ -276,8 +273,9 @@ export default async function EcosystemPage({ params }: EcosystemPageProps) {
                             </a>
                           </p>
                         )}
-                      </div>
-                    ))}
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <div className="mt-6 rounded-xl border border-brand-200 bg-white/90 p-4">
